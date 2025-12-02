@@ -10,6 +10,7 @@ import CreatePost from './pages/CreatePost'
 import {useUser} from '@clerk/clerk-react'
 import Layout from './pages/Layout'
 import {Toaster} from 'react-hot-toast'
+import Connections from './pages/Connections'
 const App = () => {
   const {user} = useUser()
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/' element={ !user ?<Login/> :<Layout/>}>
           <Route index element ={<Feed/>}/>
           <Route path='messages' element ={<Messages/>}/>
+          <Route path='connections' element ={<Connections/>}/>
           <Route path='messages/:userId' element ={<ChatBox/>}/>
           <Route path='discover' element ={<Discover/>}/>
           <Route path='profile' element ={<Profile/>}/>

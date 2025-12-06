@@ -61,6 +61,7 @@ const CreatePost = () => {
             hover:text-gray-700 transition cursor-pointer'>
               <Image className='size-6'/>
             </label>
+
             <input type="file" id="images" accept='image/*' 
             hidden multiple onChange={(e)=>setImages([...images, ...e.target.files])} />
             <button disabled={loading} onClick={()=> toast.promise(
@@ -71,6 +72,7 @@ const CreatePost = () => {
                 error: <p>Post Not Added</p>
               }
             )} 
+            
             className='text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600
             hover:to-purple-700 active:scale-95 transition 
             text-white font-medium px-8 py-2 rounded-md cursor-pointer'>

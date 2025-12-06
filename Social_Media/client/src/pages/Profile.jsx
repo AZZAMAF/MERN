@@ -11,13 +11,13 @@ const Profile = () => {
 
   const {profileId} = useParams()
   const [user, setUser] = useState(null)
-  const [posts, setsPosts] = useState([])
+  const [posts, setPosts] = useState([])
   const [activeTab, setActtiveTab] = useState('posts')
   const [showEdit, setShowEdit] = useState(false)
 
   const fetchUser = async ()=>{
     setUser(dummyUserData)
-    setsPosts(dummyPostsData)
+    setPosts(dummyPostsData)
   }
 
   useEffect(()=>{
@@ -66,6 +66,7 @@ const Profile = () => {
                   {post.image_urls.map((image,index)=>(
                     <Link target='_blank' to={image} key={index} className='relative group'>
                       <img src={image} key={index} className='w-64 aspect-video object-cover' alt="" />
+
                     <p className='absolute bottom-0 right-0 text-xs p-1 px-3 backdrop-blur-xl
                     text-white opacity-0 group-hover:opacity-100 transtion duration-300'>
                       Posted {moment(post.createdAt).fromNow()}</p>

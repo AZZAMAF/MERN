@@ -1,4 +1,4 @@
-import mongoose, { connections } from "mongoose";
+import mongoose, { connections } from 'mongoose';
 //This file is for Store to monggo db coy
 const userSchema = new mongoose.Schema({
     _id: {type: String, required: true},
@@ -14,6 +14,6 @@ const userSchema = new mongoose.Schema({
     connections: [{type: String, ref: 'User'}],
 },{timestamps: true, minimize: false})
 
-const user = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
 
 export default User

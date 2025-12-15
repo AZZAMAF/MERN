@@ -19,7 +19,7 @@ const syncUserCreation = inngest.createFunction(
             username = username + Math.floor(Math.random() * 10000)
         }
 
-        const usedData ={
+        const userData ={
             _id: id,
             email: email_addresses[0].email_address,
             full_name: first_name + "" + last_name,

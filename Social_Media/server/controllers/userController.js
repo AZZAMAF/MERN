@@ -1,7 +1,9 @@
-import ImageKit from "@imagekit/nodejs"
+
+import imageKit from "@imagekit/nodejs"
 import User from "../models/User.js"
 import fs from 'fs'
 import { request } from "http"
+import iK from "../configs/imageKit.js"
 
 // Getu User data Using UserId
 export const getUserData = async (req, res) => {
@@ -23,14 +25,14 @@ export const getUserData = async (req, res) => {
 export const updateUserData = async (req, res) => {
     try{
         const {userId} = req.auth()
-        const {username, bio, location, full_name} = req.body;
+        let {username, bio, location, full_name} = req.body;
 
         const tempUser = await User.findById(userId)
 
         !username && (username = tempUser.username)
         
         if(tempUser.username !== username){
-            const user = User.findOne({username})
+            const user = await User.findOne({username})
             if(user){
                 // we will not change the username if it is already taken 
                 username = tempUser.username
@@ -48,12 +50,13 @@ export const updateUserData = async (req, res) => {
 
         if(profile){
             const buffer = fs.readFileSync(profile.path)
-            const response = await ImageKit.upload({
+            const response = await iK.files.upload({
                 file: buffer,
                 fileName: profile.originalname,
             })
 
-            const url = ImageKit.url({
+            const url = iK.helper.buildSrc({
+                urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
                 path: response.filePath,
                 transformation: [
                     {quality: 'auto'},
@@ -66,12 +69,13 @@ export const updateUserData = async (req, res) => {
 
         if(cover){
             const buffer = fs.readFileSync(cover.path)
-            const response = await ImageKit.upload({
+            const response = await iK.files.upload({
                 file: buffer,
                 fileName: profile.originalname,
             })
 
-            const url = ImageKit.url({
+            const url = iK.helper.buildSrc({
+                urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
                 path: response.filePath,
                 transformation: [
                     {quality: 'auto'},
@@ -87,9 +91,8 @@ export const updateUserData = async (req, res) => {
         res.json({success: true, user, message: 'Profile updated successfully'})
 
     } catch (error){
-        console.log(error);
-        res.json({success: false, message: error.message})
-        
+        console.log("❌ Update Error:",error);
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 

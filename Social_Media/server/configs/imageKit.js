@@ -1,14 +1,13 @@
 import ImageKit from '@imagekit/nodejs';
 
-const ImageKit = new ImageKit({
-  privateKey: process.env['IMAGEKIT_PRIVATE_KEY'], // This is the default and can be omitted
+// Pake nama variabel 'ik' atau 'imagekit' (huruf kecil) biar gak bentrok sama 'ImageKit'
+const iK = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,    // WAJIB: Biar dia tau akun lu yang mana
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,  // WAJIB: Biar dia dapet ijin akses
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT, // WAJIB: Biar dia tau alamat servernya
+  timeout: 5000
 });
 
-const response = await ImageKit.files.upload({
-  file: fs.createReadStream('path/to/file'),
-  fileName: 'file-name.jpg',
-});
 
-console.log(response);
 
-export default ImageKit
+export default iK
